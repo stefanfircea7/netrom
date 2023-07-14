@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <style>
+
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table td,
+        .table th {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-link:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nume</th>
+            <th>Jucători</th>
+            <th>Descriere</th>
+            <th>Culoare</th>
+            <th>Actiuni</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in teams %}
+            <tr>
+                <td>{{ team.id }}</td>
+                <td>{{ team.Name }}</td>
+                <td>{{ team.Pcount }}</td>
+                <td>{{ team.Description }}</td>
+                <td><p style=" color: transparent;text-shadow: 0 0 0 {{ team.Color }} ;">👕</p></td>
+                <td>
+                    <a href="{{ path('app_team_show', {'id': team.id}) }}" class="button-link">Show</a>
+                    <a href="{{ path('app_team_edit', {'id': team.id}) }}" class="button-link">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_team_new') }}" class="button-link">Create new</a>
+{% endblock %}

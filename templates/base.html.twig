@@ -1,16 +1,139 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Football Manager{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 
-        {% block javascripts %}
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+            }
+
+            nav {
+                background-color: #eaf2e1;
+                padding: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav-menu {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .nav-button {
+                background-color: #c3e6bc;
+                color: #333;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-size: 18px;
+            }
+
+            .nav-active {
+                background-color: #256f29;
+                color: #fff;
+            }
+
+            .logo {
+                height: 70px;
+            }
+
+            h1 {
+                text-align: center;
+                margin-top: 30px;
+                font-size: 28px;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-top: 30px;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+        </style>
+    {% endblock %}
+
+    {% block javascripts %}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <nav>
+        <ul class="nav-menu">
+            <li><img class="logo" src="/images/logo.png" alt="LOGO"></li>
+            <li><button onclick="window.location.href='{{ path('app_homepage') }}'"
+                        class="nav-button {% if app.request.attributes.get('_route') == 'app_homepage' %}nav-active{% endif %}">
+                    Acasă
+                </button></li>
+            <li><button onclick="window.location.href='{{ path('app_team_index') }}'"
+                        class="nav-button {% if app.request.attributes.get('_route') == 'app_team_index' %}nav-active{% endif %}">
+                    Echipe
+                </button></li>
+            <li><button onclick="window.location.href='{{ path('app_game_index') }}'"
+                        class="nav-button {% if app.request.attributes.get('_route') == 'app_game_index' %}nav-active{% endif %}">
+                    Meciuri
+                </button></li>
+            <li><button onclick="window.location.href='{{ path('app_result_index') }}'"
+                        class="nav-button {% if app.request.attributes.get('_route') == 'app_result_index' %}nav-active{% endif %}">
+                    Rezultate
+                </button></li>
+        </ul>
+    </nav>
+
+    <div>
+        <h1>Bine ai venit!</h1>
+
+        {% block content %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Echipa</th>
+                    <th>Meciuri</th>
+                    <th><span class="emoji">⚽</span></th>
+                    <th><span class="emoji">🥅</span></th>
+                    <th>Golaveraj</th>
+                    <th>Puncte</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set sortedTeams = teamStatistics|sort((a, b) => b.totalPoints - a.totalPoints ?: (b.goalsScored - b.goalsConceded) - (a.goalsScored - a.goalsConceded)) %}
+                {% for teamStatistic in sortedTeams %}
+                    <tr>
+                        <td>{{ teamStatistic.teamName }}<span style="color: transparent;text-shadow: 0 0 0 {{ teamStatistic.teamColor }};">👕</span></td>
+                        <td>{{ teamStatistic.gamesPlayed }}</td>
+                        <td>{{ teamStatistic.goalsScored }}</td>
+                        <td>{{ teamStatistic.goalsConceded }}</td>
+                        <td>{{ teamStatistic.goalsScored - teamStatistic.goalsConceded }}</td>
+                        <td>{{ teamStatistic.totalPoints }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    </div>
+{% endblock %}
+</body>
 </html>

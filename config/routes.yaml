@@ -1,5 +1,82 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+app_homepage:
+    path: /
+    controller: App\Controller\HomeController::index
+    methods: GET
+
+app_game_index:
+    path: /game
+    controller: App\Controller\GameController::index
+    methods: GET
+
+app_game_new:
+    path: /game/new
+    controller: App\Controller\GameController::new
+    methods: GET|POST
+
+app_game_show:
+    path: /game/{id}
+    controller: App\Controller\GameController::show
+    methods: GET
+
+app_game_edit:
+    path: /game/{id}/edit
+    controller: App\Controller\GameController::edit
+    methods: GET|POST
+
+app_game_delete:
+    path: /game/{id}
+    controller: App\Controller\GameController::delete
+    methods: POST
+
+app_team_index:
+    path: /team
+    controller: App\Controller\TeamController::index
+    methods: GET
+
+app_team_new:
+    path: /team/new
+    controller: App\Controller\TeamController::new
+    methods: GET|POST
+
+app_team_show:
+    path: /team/{id}
+    controller: App\Controller\TeamController::show
+    methods: GET
+
+app_team_edit:
+    path: /team/{id}/edit
+    controller: App\Controller\TeamController::edit
+    methods: GET|POST
+
+app_team_delete:
+    path: /team/{id}
+    controller: App\Controller\TeamController::delete
+    methods: POST
+
+app_result_index:
+    path: /result
+    controller: App\Controller\ResultController::index
+    methods: GET
+
+app_result_new:
+    path: /result/new
+    controller: App\Controller\ResultController::new
+    methods: GET|POST
+
+app_result_show:
+    path: /result/{id}
+    controller: App\Controller\ResultController::show
+    methods: GET
+
+app_result_edit:
+    path: /result/{id}/edit
+    controller: App\Controller\ResultController::edit
+    methods: GET|POST
+
+app_result_delete:
+    path: /result/{id}
+    controller: App\Controller\ResultController::delete
+    methods: POST
+generate_games:
+    path: /generate-games
+    controller: App\Controller\GameGenerationController::generateGames
